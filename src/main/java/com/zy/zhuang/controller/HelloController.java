@@ -1,12 +1,10 @@
 package com.zy.zhuang.controller;
 
 import com.zy.zhuang.request.HelloRequest;
+import com.zy.zhuang.response.HelloResponse;
 import com.zy.zhuang.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author: YuanJiZhuang
@@ -21,7 +19,11 @@ public class HelloController {
     private HelloService helloService;
 
     @RequestMapping(value = "/hello", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public String sayHello(@RequestBody HelloRequest helloRequest) {
-        return helloService.sayHello(helloRequest.getName());
+    @ResponseBody
+    public HelloResponse sayHello(@RequestBody HelloRequest helloRequest) {
+        HelloResponse response = new HelloResponse();
+        String name = helloService.sayHello(helloRequest.getName());
+        response.setName(name);
+        return response;
     }
 }
